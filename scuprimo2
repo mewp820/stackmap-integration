@@ -1,0 +1,49 @@
+(function () {
+   "use strict";
+   'use strict';
+
+
+   var app = angular.module('viewCustom', ['angularLoad']);
+
+       /* StackMap: Start */
+    app.component('prmSearchBarAfter', {
+        template: `<div id="stackmap-cssloader">
+            <link type="text/css" rel="Stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link type="text/css" rel="Stylesheet" href="https://stackmap.com/integration/southerncross-primo2/StackMap.css">
+        </div>`,
+        controller: 'FullViewAfterController'
+    });
+    app.controller('FullViewAfterController', ['angularLoad', function (angularLoad) {
+        var vm = this;
+         vm.$onInit = function () {
+            angularLoad.loadScript('https://stackmap.com/integration/southerncross-primo2/StackMap.js')
+            // .then(function() { console.log('sm loaded..') });
+        };
+    }]);
+    /* StackMap: END */
+    
+   /****************************************************************************************************/
+
+       /*In case of CENTRAL_PACKAGE - comment out the below line to replace the other module definition*/
+
+       /*var app = angular.module('centralCustom', ['angularLoad']);*/
+
+   /****************************************************************************************************/
+})
+
+
+
+/*----------below is the code for libchat-----------*/
+var s = document.createEement('script');
+s.id ='localScript';
+s.src = 'https://v2.libanswers.com/load_chat.php?hash=5c317d79e89d4f80c4152c32fa4db85b';
+document.body.appendChild(s);
+
+app.component('prmLogoAfter', {
+template: '<div id="libchat_5c317d79e89d4f80c4152c32fa4db85b"></div>'
+});
+/*---------------libchat code ends here---------------*/
+
+
+
+
