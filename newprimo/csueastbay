@@ -1,0 +1,15 @@
+    /* StackMap: Start */
+   app.component('prmSearchBarAfter', {
+        template: `<div id="stackmap-cssloader">
+            <link type="text/css" rel="Stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link type="text/css" rel="Stylesheet" href="https://www.stackmap.com/integration/csueastbay-angular/StackMap.css">
+        </div>`,
+        controller: 'FullViewAfterController'
+    });
+    app.controller('FullViewAfterController', ['angularLoad', function (angularLoad) {
+        var vm = this;
+         vm.$onInit = function () {
+            angularLoad.loadScript('https://www.stackmap.com/integration/csueastbay-angular/StackMap.js')
+        };
+    }]);
+    /* StackMap: END */
