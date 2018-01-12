@@ -1,5 +1,0 @@
-<QueryList>
-  <Query Id="0" Path= "Security">
-    <Select Path= "Security"> *[System[(Level=4 or Level=0) and (EventID=REPLACEWITHEVENTID)]] </Select>
-  </Query>
-</QueryList>
