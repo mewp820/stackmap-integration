@@ -1,5 +1,8 @@
-# Integration Examples:
+# DESCRIPTION:
+- These are code snippets that clients and copy and paste into a custom.js or similar file to load our script and styling code
+- In some catalogs, it is possible to add the html tags directly, and so this extra step is unnecessary.
 
+# Integration Examples:
 
 * For all examples, replace `<SUBDOMAIN>` inside the respsective files with the appropriate client subdomain.
 
