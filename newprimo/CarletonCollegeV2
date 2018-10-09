@@ -1,0 +1,37 @@
+/* StackMap: START */
+
+(function () {
+
+    var a = document.querySelector("head");
+    var css1 = document.createElement("link");
+    css1.type = "text/css";
+    css1.rel = "Stylesheet";
+    css1.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+    css1.crossorigin = "anonymous";
+    a.appendChild(css1);
+
+    var css2 = document.createElement("link");
+    css2.type = "text/css";
+    css2.rel = "Stylesheet";
+    css2.href = "https://www.stackmap.com/integration/carleton-primo2/StackMap.css?" + Date.now();
+    a.appendChild(css2);
+
+    var w = document.createElement("script");
+    w.type = "text/javascript"; w.async = true;
+    w.src = "https://www.stackmap.com/integration/carleton-primo2/StackMap.js?" + Date.now();
+    var b = document.body;
+    b.appendChild(w);
+
+    var ga = document.createElement("script");
+    ga.async = true;
+    ga.src = "https://www.googletagmanager.com/gtag/js?id=UA-127041445-2";
+    a.appendChild(ga);
+    
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-127041445-2');
+
+})();
+
+/* StackMap: END */
