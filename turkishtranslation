@@ -1,0 +1,96 @@
+var StackMap_dictionary = function() {
+    var letters = {
+        // lower case
+        'à':'a', 
+        'á':'a',
+        'â':'a',
+        'ä':'a',
+
+        'é':'e',
+        'è':'e',
+        'ê':'e',
+        'ë':'e',
+
+        'ì':'i',
+        'í':'i',
+        'î':'i',
+        'ï':'i',
+        'ĭ ':'i',
+
+        'ò':'o',
+        'ó':'o',
+        'ô':'o', 
+        'ö':'o',
+        'œ':'o',
+
+        'ú':'u',
+        'ù':'u',
+        'û':'u',
+        'ü':'u',
+        'ų': 'u',
+
+        'ÿ':'y',
+        'ç':'c',
+        'ñ':'n',
+        'n̈':'n',
+        'ß':'s',
+        'ğ':'g',
+        'ş':'s',
+
+        // uppercase 
+        'Á':'A', 
+        'À':'A',
+        'Â':'A',
+        'Ä':'A',
+
+        'È':'E',
+        'É':'E',
+        'Ê':'E',
+        'Ë':'E',
+
+        'Î':'I',
+        'Ï':'I',
+        'Í':'I',
+        'İ':'I',
+        'Ĭ': 'I',
+
+        'Ó':'O',
+        'Ò':'O',
+        'Ô':'O',
+        'Ö':'O',
+        'Œ':'O',
+
+        'Ù':'U',
+        'Ú':'U',
+        'Û':'U',
+        'Ü':'U',
+        'Ų':'U',
+
+        'Ÿ':'Y',
+        'Ç':'C',
+        'Ñ':'N',
+        'N̈':'N',
+        'Ğ':'G',
+        'Ş':'S'
+    };
+
+    function normalize(word){
+        return word.split('').map(function(char){
+            if (letters[char]) return letters[char];
+            if (char.charCodeAt(0) > 122) return '';
+            else return char;
+        }).join('');
+    }
+
+    function clean(word){
+        return !word.split('').some(function(char){
+            return letters[char] || char.charCodeAt(0) > 122;
+        });
+    }
+
+    return {
+        normalize: normalize,
+        clean: clean
+    };
+
+};
