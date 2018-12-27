@@ -62,7 +62,7 @@
 
           var resource = p[i]
 
-          if (resource.name === 'http://stackmap.com/integration/sva/StackMap.js'){
+          if (resource.name === 'http://stackmap.com/integration/carleton-primo2/StackMap.js' || resource.name === 'https://stackmap.com/integration/carleton-primo2/StackMap.js'){
 
             var time = resource.responseEnd - resource.fetchStart;
 
