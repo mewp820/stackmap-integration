@@ -1,0 +1,166 @@
+(function(){
+"use strict";
+'use strict';
+
+/*
+ * load custom view
+ */
+var app = angular.module('viewCustom', ['angularLoad', 'customNoSearchResults']);
+
+//Begin Aeon
+app.component('prmLoginAlmaMashupAfter', {
+  bindings: { parentCtrl: '<' },
+  controller: 'aeonLinkController',
+  template: '<div ng-if="mmsID" class="aeonDiv">\n\
+              <span class="bold-text" title="View Options">VIEW OPTIONS:</span>\n\
+              <a href="https://alma-configs.galib.uga.edu/primolibs/request.php?mmsid={{mmsID}}" target="_blank" class="aeonLink">\n\
+              Request to View at Special Collections</a>\n\
+              <prm-icon external-link="" icon-type="svg" svg-icon-set="primo-ui" icon-definition="open-in-new">\n\
+                <md-icon md-svg-icon="primo-ui:open-in-new" alt="" class="md-primoExplore-theme" aria-hidden="true">\n\
+                  <svg id="open-in-new_cache154" width="100%" height="100%" viewBox="0 0 24 24" y="504" xmlns="http://www.w3.org/2000/svg" fit="" preserveAspectRatio="xMidYMid meet" focusable="false">\n\
+                    <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"></path>\n\
+                  </svg>\n\
+                </md-icon>\n\
+              <prm-icon-after parent-ctrl="$ctrl"></prm-icon-after></prm-icon>\n\
+             </div>'
+
+});
+
+app.controller('aeonLinkController', ['$scope', '$http', '$httpParamSerializer', function ($scope, $http, $httpParamSerializer) {
+  var vm = this;
+  var pnx = $scope.$parent.$parent.$ctrl.item.pnx;
+
+  var SCLlocations = {
+    "Russell": "Russell",
+    "RussellBib": "Russell",
+    "Russell_Rf": "Russell",
+    "Russell_MS": "Russell",
+    "RBR_Exhib": "Russell",
+    "Ga_Room": "Hargrett",
+    "Georgiana": "Hargrett",
+    "Hargr_Drap": "Hargrett",
+    "Hargr_Rare": "Hargrett",
+    "HargrRBHSV": "Hargrett",
+    "Hargr_18C": "Hargrett",
+    "Hargr_HDV": "Hargrett",
+    "Hargr_Ref": "Hargrett",
+    "Hargr_SST": "Hargrett",
+    "Hargr_DER": "Hargrett",
+    "Hargr_Wood": "Hargrett",
+    "UniArchBK": "Hargrett",
+    "Hargr_WRC": "Hargrett",
+    "Hargr_JDBR": "Hargrett",
+    "Hargr_MSBK": "Hargrett",
+    "GovSCB": "Hargrett"
+  };
+  //search for SCL location for this record:
+  var foundSCLlocation = 0;
+  if (pnx.display.availlibrary.constructor === Array) {
+    //this is an array, so there is more than one location
+    angular.forEach(pnx.display.availlibrary, function (haystack, index) {
+      angular.forEach(SCLlocations, function (libraryName, locationCode) {
+        if (haystack.toLowerCase().indexOf(locationCode.toLowerCase()) >= 0) {
+          foundSCLlocation = 1;
+          return false; //break out of inner loop
+        }
+      });
+      if (foundSCLlocation) return false; //break out of outer foreach if we've found an scl location
+    });
+  } else {
+    //there's only one location, so no need for outer loop
+    haystack = pnx.display.availlibrary;
+    angular.forEach(SCLlocations, function (libraryName, locationCode) {
+      if (haystack.toLowerCase().indexOf(locationCode.toLowerCase()) >= 0) {
+        foundSCLlocation = 1;
+        return false; //break out of loop
+      }
+    });
+  }
+
+  if (foundSCLlocation) {
+    //fetch the MMSid, make it an array
+    var mmsIDsFromPNX = pnx.display.lds03 instanceof Array ? pnx.display.lds03 : [pnx.display.lds03];
+    var mmsID = 0;
+    var mmsIDs = [];
+    //Note that the array of MMSIDs can look like this, and we only need UGA:
+    //0: "996145314102948$$IAUGUSTA"
+    //1: "99517763502938$$ICCGA"
+    //2: "99167303602940$$IDALTON"
+    //3: "993112633802950$$IGASOU"
+    //4: "99914493902959$$IUGA"
+    //5: "9930755933902959$$IUGA"
+    if (mmsIDsFromPNX.length > 0) {
+      angular.forEach(mmsIDsFromPNX, function (value, key) {
+        //only add UGA mmsids to the array
+        if (value.indexOf("$$IUGA") >= 0) {
+          mmsIDs.push(value.replace(/\D/g, ''));
+        }
+      });
+
+      var qs = $httpParamSerializer(mmsIDs);
+      $http.get('https://alma-configs.galib.uga.edu/primolibs/phpAlma/aeoncheckforSCL.php?' + qs).then(function (success) {
+        console.log('RESPONSE', success);
+        $scope.mmsID = success.data.mmsID;
+      }, function (error) {
+        console.log('ERROR', error);
+      });
+      //**AFTER TESTING-REMOVE NEXT LINE***
+      //mmsID = mmsIDsFromPNX[0].replace(/\D/g, '');
+    }
+    $scope.mmsID = mmsID;
+  }
+}]);
+//End Aeon
+
+app.component('prmTopBarBefore', {
+  template: '<div ng-if="showBanner" id="customBanner"><style>prm-topbar {margin-top: 35px; position: static;} @media (max-width: 800px){ prm-topbar {margin-top: 53px;}}</style><strong>NOTICE:</strong>\
+                The UGA ILLiad web interface for borrowing requests will be unavailable from\
+                2pm-3pm on Wednesday, May 30th.\
+                </div>'
+});
+
+app.value('analyticsOptions', {
+  enabled: true,
+  siteId: 'UA-29420063-1',
+  defaultTitle: 'Discovery Search'
+});
+
+(function () {
+  var chat = document.createElement('script');
+  chat.type = 'text/javascript';
+  chat.async = 'true';
+  chat.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'v2.libanswers.com/load_chat.php?hash=98decc647f758fc3551532704617bd82';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(chat, s);
+})();
+
+//The no searchresults module is set up in the central package.  This just changes the default html to institution-specific.
+app.value('customNoSearchResultsTemplateUrl', 'custom/UGA/html/customNoSearchResults.html');
+})();
+
+/* StackMap: Start */
+(function(){
+
+    var a = document.querySelector("head");
+    var css1 = document.createElement("link"); 
+    css1.type = "text/css";
+    css1.rel = "Stylesheet";
+    css1.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+    css1.crossorigin = "anonymous";
+    a.appendChild(css1);
+
+    var css2 = document.createElement("link"); 
+    css2.type = "text/css";
+    css2.rel = "Stylesheet";
+    css2.href = "https://www.stackmap.com/integration/uga-primo2/StackMap.css";
+    a.appendChild(css2);
+
+    var w = document.createElement("script"); 
+    w.type = "text/javascript"; w.async = true;
+    w.src = "https://www.stackmap.com/integration/uga-primo2/StackMap.js";
+    var b = document.body;
+    b.appendChild(w);
+
+})();
+/* StackMap: END */
+
