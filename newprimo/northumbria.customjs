@@ -1,0 +1,184 @@
+(function () {
+    "use strict";
+    'use strict';
+
+
+    var app = angular.module('viewCustom', ['angularLoad']);
+
+    /****************************************************************************************************/
+
+        /*In case of CENTRAL_PACKAGE - comment out the below line to replace the other module definition*/
+
+        /*var app = angular.module('centralCustom', ['angularLoad']);*/
+
+    /****************************************************************************************************/
+
+
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+();
+
+
+
+
+
+   
+// Rewrite for Angular 1.6.  Tim Graves.  16/06/2017
+// This version:
+// Addresses the Trust issue by whitelisting the Talis url
+// Changes the format in which a callback is declared
+// Replaces the deprecated .success
+// 27/07/2017 - tweaked by Ex Libris to work on Internet Explorer. TG
+
+
+var app = angular.module('viewCustom', ['angularLoad'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Whitelisting
+.constant('AspireTrustBaseUrl', "https://northumbria.rl.talis.com/").config(['$sceDelegateProvider', 'AspireTrustBaseUrl', function ($sceDelegateProvider, AspireTrustBaseUrl) {
+  var urlWhitelist = $sceDelegateProvider.resourceUrlWhitelist();
+  urlWhitelist.push(AspireTrustBaseUrl + '**');
+  $sceDelegateProvider.resourceUrlWhitelist(urlWhitelist);
+}]);
+
+// End of whitelisting
+  
+       app.component('prmServiceDetailsAfter', {
+       bindings: { parentCtrl: '<' },
+       controller: 'DisplayAspireListsController',
+       template: '<div ng-if="listsFound"><span class="bold text">Cited on reading lists:</span><ul><li ng-repeat="(url,listname) in listsFound"><a href="{{url}}">{{listname}} </a></li></ul></div>'
+                    
+                       
+       });
+
+
+       app.component('prmSearchBarAfter', {
+       template: '<div id="nu-search-bar"><div id="nusearchoptions" style=""><label><input id="nu-searchopt-rad1" name="pcAvailabiltyMode" value="false" type="radio" checked="checked"><span class="check">&nbsp;</span><span>Search the Library Collection, includes books, ebooks, journals and ejournals</span></label><label><input id="nu-searchopt-rad2" name="pcAvailabiltyMode" value="true" type="radio"><span class="check">&nbsp;</span><span>Widen your search to include resources from outside our collections</span></label></div><div id="search-menu"><ul><li><a alt="Help" href="https://www.northumbria.ac.uk/librarysearchtoolkit">Help</a><a></a></li><a></a><li><a></a><a alt="A to Z of ejournals" href="https://librarysearch.northumbria.ac.uk/primo-explore/jsearch?vid=northumbria&lang=en_US">A-Z ejournals</a><a></a></li><a></a><li><a></a><a alt="A to Z of Databases" href="http://library.northumbria.ac.uk/start">A-Z databases</a><a></a></li><a></a><li><a></a><a alt="Subject Resources" href="http://library.northumbria.ac.uk/subjAZ">Subject Resources</a><a></a></li><a></a><li><a></a><a alt="Passwords" href="https://cragside.northumbria.ac.uk/public/passwords/password.html">Passwords</a><a></a></li><a></a><li><a></a><a alt="Reading Lists" href="http://readinglists.northumbria.ac.uk">Reading Lists</a><a></a></li><a></a><li><a></a><a alt="Subject Guides" href="https://library.northumbria.ac.uk/subject-guides">New! Subject Guides</a><a></a></li><a></a></ul><a></a></div></div>'
+    });  
+
+
+
+app.component('prmLogoAfter', {
+    template: '<div id="ls-logo"><a target="_self" href="https://librarysearch.northumbria.ac.uk/primo-explore/search?vid=northumbria"><img src="https://librarysearch.northumbria.ac.uk/primo-explore/custom/northumbria/img/ls-whiteout.png"></a></div>'
+    });
+
+
+ 
+ 
+app.controller('DisplayAspireListsController', function ($scope, $http) {
+    
+    var vm = this;
+
+    // Get the MMSID
+    vm.getMMSID = getMMSID;
+ 
+    function getMMSID() {
+         return vm.parentCtrl.item.pnx.search.addsrcrecordid[0];
+       }
+
+  
+      var url = 'https://northumbria.rl.talis.com/lcn/' + getMMSID() + '/lists.json';
+           
+
+// Make the call to Aspire
+
+$http.jsonp(url,{jsonpCallbackParam: 'cb'})
+
+.then(function handleSuccess(response) {
+
+ $scope.listsFound = response.data;
+    
+    });
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var jq = document.createElement('script');
+jq.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js";
+document.head.appendChild(jq);
+var my_js = document.createElement('script');
+//my_js.src = "https://cragside.northumbria.ac.uk/everyone/web/dev/Northumbria_Primo_CSS_dev/newui/prod_primo2.js";
+my_js.src = "https://librarysearch.northumbria.ac.uk/primo-explore/custom/northumbria/js/prod_primo2.js";
+document.head.appendChild(my_js);
+
+/* StackMap: Start */
+(function(){
+
+    var a = document.querySelector("head");
+    var css1 = document.createElement("link"); 
+    css1.type = "text/css";
+    css1.rel = "Stylesheet";
+    css1.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+    css1.crossorigin = "anonymous";
+    a.appendChild(css1);
+
+    var css2 = document.createElement("link"); 
+    css2.type = "text/css";
+    css2.rel = "Stylesheet";
+    css2.href = "https://www.stackmap.com/integration/northumbria-primo2/StackMap.css";
+    a.appendChild(css2);
+
+    var w = document.createElement("script"); 
+    w.type = "text/javascript"; w.async = true;
+    w.src = "https://www.stackmap.com/integration/northumbria-primo2/StackMap.js";
+    var b = document.body;
+    b.appendChild(w);
+
+})();
+/* StackMap: END */
