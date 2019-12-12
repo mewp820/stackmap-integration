@@ -21,12 +21,12 @@ var app = angular.module('viewCustom', ['angularLoad']);
     var css2 = document.createElement("link"); 
     css2.type = "text/css";
     css2.rel = "Stylesheet";
-    css2.href = "https://www.stackmap.com/integration/sva-primo/StackMap.css";
+    css2.href = "https://www.stackmap.com/integration/sva-primo2/StackMap.css";
     a.appendChild(css2);
 
     var w = document.createElement("script"); 
     w.type = "text/javascript"; w.async = true;
-    w.src = "https://www.stackmap.com/integration/sva-primo/StackMap.js";
+    w.src = "https://www.stackmap.com/integration/sva-primo2/StackMap.js";
     var b = document.body;
     b.appendChild(w);
 
