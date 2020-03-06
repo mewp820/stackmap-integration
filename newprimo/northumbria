@@ -12,12 +12,12 @@
     var css2 = document.createElement("link"); 
     css2.type = "text/css";
     css2.rel = "Stylesheet";
-    css2.href = "https://www.stackmap.com/integration/northumbria-primo2/StackMap.css";
+    css2.href = "https://www.stackmapintegration.com/northumbria-primo2/StackMap.min.css";
     a.appendChild(css2);
 
     var w = document.createElement("script"); 
     w.type = "text/javascript"; w.async = true;
-    w.src = "https://www.stackmap.com/integration/northumbria-primo2/StackMap.js";
+    w.src = "https://www.stackmapintegration.com/northumbria-primo2/StackMap.min.js";
     var b = document.body;
     b.appendChild(w);
 
